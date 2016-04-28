@@ -1,0 +1,18 @@
+<h2> This is a template engine Twigs </h2>
+
+<p> This is an example of how to make MVC pattern in VCL </p>
+<p> For this implementation I used
+    <ul><li>    <a href="http://twig.sensiolabs.org/"> Twig </a> as template engine</li>
+    <li> <a href="http://phpdatamapper.com/"> Spot ORM </a> as Database manager </li>
+    <li>Composer as library loader</li>
+</ul>
+
+<form method="post">
+    <table>
+    {{form.renderAsTable|raw}}
+    <tr><td></td> <td> <input type="submit" value="Save"> </td></tr>
+    </table>
+    
+</form>
+
+<h3> <a href="?mode=ListNetwork"> List of networks </a> </h3>

@@ -1,0 +1,93 @@
+VCL 2.4.2
+
+I. Intro and Description
+
+VCL, Virtual Computing Lab. The VCL can be many things, first and foremost it is
+an open-source system used to dynamically provision and broker remote access to
+a dedicated compute environment for an end-user. The provisioned computers are
+typically housed in a data center and may be physical blade servers, traditional
+rack mounted servers, or virtual machines. VCL can also broker access to
+standalone machines such as a lab computers on a university campus.
+
+One of the primary goals of VCL is to deliver a dedicated compute environment to
+a user for a limited time through a web interface. This compute environment can
+range from something as simple as a virtual machine running productivity
+software to a machine room blade running high end software (i.e. a CAD, GIS,
+statistical package or an Enterprise level application) to a cluster of
+interconnected physical (bare metal) compute nodes.
+
+Also using the scheduling API it can be used to automate the provisioning of
+servers in a server farm or HPC cluster.
+
+II. Notable Changes
+
+The following are some notable changes from previous releases.
+
+Added:
+
+* Scripted installation and upgrade
+* Ability to run multiple web servers
+* NAT support for connecting to reservations
+* Provisioning to OpenStack
+* Provisioning to OpenNebula
+* Provisioning to ESXi 5.5
+* Windows 8.x and Server 2012 images
+* Use of 64 bit cygwin
+* Improved interface for resource management
+
+Removed: 
+
+* xCAT 1.x no longer supported
+
+NOTE: The release process for 2.4 and 2.4.1 was completed, but bugs were found
+before they were ever announced. So, there never were 2.4 and 2.4.1 releases
+worth using. 2.4.2 was the first usable release of the 2.4 series.
+
+III. Getting Involved in the ASF VCL Community
+
+There are five ways to become involved in the ASF VCL community.
+
+* Join the mailing lists and participate in discussion
+  There are two mailing lists: user@vcl.apache.org and dev@vcl.apache.org.
+  To join user, send an empty message to user-subscribe@vcl.apache.org.
+  To join dev, send an empty message to dev-subscribe@vcl.apache.org.
+
+* Submit bug reports and feature requests to our JIRA bug tracking system.
+  See section IV below for more information on doing this.
+
+* Create documentation on our Confluence site. Create an account at
+  http://cwiki.apache.org/confluence/display/VCL/Index and just start adding
+  content. (Note to current community: We should create a page explaining
+  the layout so new people will know where to add content better.)
+
+* Submit patches through the dev mailing list and via the JIRA bug
+  tracking system. Once you have become familiar with VCL, you can begin
+  assisting with the development of it by picking a JIRA issue to fix or by
+  adding a feature needed at your site. Then, contribute a patch of your
+  changes through the JIRA tracking system and send a message to the dev
+  list explaining what you have done.
+
+* Become an official committer to the project. Once you have shown that you have
+  a good grasp of the project by submitting patches, you can further join the
+  development work by submitting a contributor license agreement (CLA) to ASF
+  and having a committer account created to directly contribute code to the
+  project.
+
+* If you are interested in contributing something to the project, please discuss
+  it on the dev list BEFORE starting work on it. This allows the community
+  to be involved in decisions and allows current developers to provide some
+  guidance.
+
+IV. How to Submit Bugs and Feature Requests
+
+If you find a bug, please submit a bug report to our JIRA bug tracking system at
+http://issues.apache.org/jira/browse/VCL (you will need to set up an account
+there if you haven't already done so - it's free to anyone).
+
+If you would like to requrest a new feature, you can also submit that in the
+same way through JIRA (just select "New Feature" or "Improvement" as the Issue
+Type).
+
+After you have created a JIRA issue, you have the option to vote on it to help
+us know how to prioritize issues. You can also "watch" the issue to see when
+activity related to it is submitted.
