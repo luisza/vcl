@@ -10,6 +10,7 @@ require_once 'Widgets.php';
 
 class Form{
     private $widgets = array();
+    private $messages = array();
     
     public function addWidget($widget){
         array_push($this->widgets, $widget);
@@ -20,7 +21,39 @@ class Form{
             print $widget->render();
         }
     }
+    public function fillForm($method){
+        // Supported method GET POST
+        foreach ($this->widgets as $widget){
+            switch ($method){
+                case 'POST':
+                    if(isset($_POST[$widget->name]) ){
+                        $value = htmlspecialchars($_POST[$widget->name]);
+                        $widget->setValue($value);
+                    }
+                    break;
+                case 'GET':
+                    if(isset($_GET[$widget->name]) ){
+                        $value = htmlspecialchars($_GET[$widget->name]);
+                        $widget->setValue($value);
+                    }
+                    break;
+            }
+        }
+    }
     
+    public function isValid(){
+        foreach ($this->widgets as $widget){
+            $result = $widget->validate();
+            if($result != NULL){
+                array_push($this->messages, $result);
+            }
+        }
+        return count($this->messages) == 0;
+    }
+    function getMessages() {
+        return $this->messages;
+    }
+
     public function renderAsTable(){
         $print = "";
        foreach ($this->widgets as $widget){
@@ -29,7 +62,19 @@ class Form{
         }  
         return $print;
     }
-    
+    function getWidgets($onlyEdit=False) {
+        if(!$onlyEdit) return $this->widgets;
+        
+        $devWidgets = [];
+        foreach ($this->widgets as $widget){
+            if($widget->wasEdited()){
+                array_push($devWidgets, $widget);
+            }
+        }
+        return $devWidgets;
+    }
+
+
 }
 
 class ModelFormBuilder{
@@ -44,7 +89,7 @@ class ModelFormBuilder{
          $widget->inicialize($values['default']);
         }       
         if($instance != NULL){
-            $widget->inicialize($instance->$field);
+            $widget->inicialize($instance->instance->$field);
         }
     }
 

@@ -6,6 +6,8 @@
  * and open the template in the editor.
  */
 
+include 'NetworkView.php';
+        
 class ViewsFactory{
     private $views = [];
     private static $instance;
@@ -24,8 +26,9 @@ class ViewsFactory{
     
     
     public function register($view, $inmenu=True){
-        $this->views[$view::getName()] =  [
-            'verbose_name' => $view::getVerbose_name(),
+        $view = new $view;
+        $this->views[$view->getName()] =  [
+            'verbose_name' => $view->getVerbose_name(),
             'view' => $view,
             'menu' => $inmenu];
                 
@@ -53,9 +56,9 @@ class ViewsFactory{
     public function loads(){
         
         if(count($this->views) == 0){
-            require_once ('NetworkView.php');
-            $this->register(CreateNetworkView);
-            $this->register(ListNetworkView, False);
+            $this->register('CreateNetworkView', False);
+            $this->register('EditNetworkView');
+            $this->register('ListNetworkView');
         }else{
              return;
         }

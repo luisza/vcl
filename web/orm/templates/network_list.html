@@ -1,6 +1,7 @@
 
 <ul >
 {% for item in object_list %}
-    <li>(id: {{ item.id }}) {{ item.name }} --> {{ item.cidr }}</li>
+    <li>(id: {{ item.id }}) {{ item.name }} --> {{ item.cidr }}
+    <a href="?mode=EditNetwork&pk={{item.id}}"> Editar </a></li>
 {% endfor %}
 </ul>

@@ -43,11 +43,33 @@ class BaseModel {
 		}
 		return $result;
 	}
-	public function save($data){
-		$result = $this->mapper->save($this->instance);		
-		return $result;
+        private function update_data($data){
+            foreach (array_keys($data) as $dataf){
+                $this->instance->$dataf = $data[$dataf];
+            }
+        }
+        public function save($data){
+            $this->update_data($data);
+            $result = $this->mapper->save($this->instance);		
+            return $result;
 	}
-	public function update(){
-		$this->mapper->update($this->instance);
+	public function update($data){
+            $this->update_data($data);
+            $this->mapper->update($this->instance);
 	}
+        
+        public function load($pk){
+            $this->instance = $this->mapper->get($pk);
+        }
+        
+        public function getPkField(){
+            $fields = $this->fields();
+            $pkfields = array();
+            foreach ($fields as $field){
+                if(array_key_exists('primary', $field) && $field['primary']){
+                    array_push($pkfields, $field['column']);
+                }
+            }
+            return $pkfields;
+        }
 }
