@@ -9,6 +9,7 @@ class CreateNetworkView extends BaseEditView{
     public $template_name= 'network.html';
     public $name = 'CreateNetwork';
     public $verbose_name = 'Manage networks create';
+    private $redirect_success = 'ListNetwork';
     
     public function get(){
         $form = $this->getForm();
@@ -22,19 +23,15 @@ class CreateNetworkView extends BaseEditView{
         if($form->isValid()){
             $this->save($form);
             $form = $this->getForm();
+            # FIXME: Works with headers out of vcl
+            #header('Location: ?mode='.$this->redirect_success);
+            echo "<script> location.replace('?mode=".$this->redirect_success."'); </script>";
+            die();
+            
         }
         $twig = $this->getTemplateLoader();
         echo $twig->render($this->template_name, array('form' => $form ));       
     }
-    function getName() {
-        return $this->name;
-    }
-
-    function getVerbose_name() {
-        return $this->verbose_name;
-    }
-
-
 }
 
 class EditNetworkView extends CreateNetworkView{
@@ -42,7 +39,8 @@ class EditNetworkView extends CreateNetworkView{
     public $template_name= 'network.html';
     public $name = 'EditNetwork';
     public $verbose_name = 'Manage networks editview';    
-
+    private $redirect_success = 'ListNetwork';
+    
     public function get(){
         if(isset($_GET['pk']) ){
             $instance = new $this->model;
@@ -72,16 +70,7 @@ class EditNetworkView extends CreateNetworkView{
             // TODO: Raise exception if $instance is null
         }
         parent::post();
-    }
-    function getName() {
-        return $this->name;
-    }
-
-    function getVerbose_name() {
-        return $this->verbose_name;
-    }
-
-       
+    }      
 }
 
 // FIXME: Abstract view for list fields
@@ -92,19 +81,46 @@ class ListNetworkView extends BaseEditView {
     public $verbose_name = 'Manage networks';    
 
     public function get(){
-        $net = new $this->model();
+        $net = new $this->model;
         $nets = $net->mapper->all();
         $twig = $this->getTemplateLoader();
         echo $twig->render($this->template_name, array('object_list' => $nets ));
     }
-    function getName() {
-        return $this->name;
+}
+
+class DeleteNetworkView extends BaseEditView{
+    public $model = 'Network';
+    public $template_name= 'network_delete.html';
+    public $name = 'DeleteNetwork';
+    public $verbose_name = 'Manage networks delete';    
+    private $redirect_success = 'ListNetwork';
+    
+    public function save(){}
+
+    public function get(){
+        if(isset($_GET['pk']) ){
+            $instance = new $this->model;
+            $instance->load($_GET['pk']);
+            $this->instance = $instance;
+            // TODO: Raise exception if $instance is null
+        }
+        $twig = $this->getTemplateLoader();
+        echo $twig->render($this->template_name, array(
+            'instance' => $this->instance->instance ));
     }
-
-    function getVerbose_name() {
-        return $this->verbose_name;
-    }
-
-
+    
+    public function post(){
+        if(isset($_POST['pk']) ){
+            $instance = new $this->model;
+            $instance->load($_POST['pk']);
+            // TODO: Raise exception if $instance is null
+            $instance->delete();
+        }
+        # FIXME: Works with headers out of vcl
+        #header('Location: ?mode='.$this->redirect_success);
+        echo "<script> location.replace('?mode=".$this->redirect_success."'); </script>";
+        die();  
+    } 
+    
 }
 

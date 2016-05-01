@@ -57,7 +57,8 @@ class ViewsFactory{
         
         if(count($this->views) == 0){
             $this->register('CreateNetworkView', False);
-            $this->register('EditNetworkView');
+            $this->register('EditNetworkView', False);
+            $this->register('DeleteNetworkView', False);
             $this->register('ListNetworkView');
         }else{
              return;

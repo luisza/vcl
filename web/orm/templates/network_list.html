@@ -1,7 +1,22 @@
 
-<ul >
+<a class="btn" href="?mode=CreateNetwork"> Create Network </a>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>CIDR</th>
+        <th>Gateway</th>
+        <th>Netmask</th>
+        <th>Delete</th>
+    </tr>
 {% for item in object_list %}
-    <li>(id: {{ item.id }}) {{ item.name }} --> {{ item.cidr }}
-    <a href="?mode=EditNetwork&pk={{item.id}}"> Editar </a></li>
+<tr>
+    <td>{{ item.id }} </td>
+    <td> <a href="?mode=EditNetwork&pk={{item.id}}"> {{ item.name }} </a> </td>
+    <td> {{ item.cidr }} </td>
+    <td> {{item.gateway }}</td>
+    <td> {{item.networkmask }}</td>
+    <td> <a href="?mode=DeleteNetwork&pk={{item.id}}"> Delete </a></td>
+</tr>
 {% endfor %}
-</ul>
+</table>

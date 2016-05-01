@@ -6,6 +6,8 @@ class BaseEditView{
     public $instance = NULL;
     public $model =NULL;
     public $template_name = NULL;
+    public $name = NULL;
+    public $verbose_name = NULL;   
     
     function __construct($instance=NULL) {
         $this->instance = $instance;
@@ -38,4 +40,11 @@ class BaseEditView{
             $instance->mapper->insert($values);
         }
     }
+    function getName() {
+        return $this->name;
+    }
+
+    function getVerbose_name() {
+        return $this->verbose_name;
+    } 
 }

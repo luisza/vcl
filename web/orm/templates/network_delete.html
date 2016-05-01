@@ -1,0 +1,9 @@
+
+
+<h2>Object {{instance.name}} will be delete, Are you sure ?</h2>
+
+<form method="POST" action="?mode=DeleteNetwork">
+    <input type="Hidden" name="pk" value="{{instance.id}}">
+    <input type="submit" value="Delete">
+    <input type="button" onclick="window.history.back();" value="Cancel">
+</form>

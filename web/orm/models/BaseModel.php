@@ -72,4 +72,9 @@ class BaseModel {
             }
             return $pkfields;
         }
+        
+        public function delete(){
+            $this->mapper->delete($this->instance);
+        }
+        
 }
