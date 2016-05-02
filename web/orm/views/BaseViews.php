@@ -19,9 +19,12 @@ class BaseEditView{
         return $twig;
     }
     
-    public function getForm(){
+    public function getForm($includeFields=NULL){
         $formBuilder= new ModelFormBuilder();
-        $form = $formBuilder->loadModel(new $this->model(), $this->instance);
+        $form = $formBuilder->loadModel(new $this->model(), 
+                                        $instance=$this->instance,
+                                        $includefields=$includeFields
+                                );
         return $form;
     }
     public function get(){}
@@ -118,13 +121,29 @@ class EditView extends CreateView{
 
 // FIXME: Abstract view for list fields
 class ListView extends BaseEditView {
-
+    public $list_filter = NULL;
+    
+    private function getFormFilter(){
+        if($this->list_filter==NULL) return NULL;
+        $form = $this->getForm($this->list_filter);
+        $form->fillForm("GET");
+        return $form;
+    }
     public function get(){
         $net = new $this->model;
         //FIXME: provide filters 
-        $nets = $net->mapper->all();
+        $form = $this->getFormFilter();
+        //print_r($form);
+        if($form == NULL){
+            $nets = $net->mapper->all();
+        }else{
+            $nets = $net->mapper->where($form->getData());
+        }
         $twig = $this->getTemplateLoader();
-        echo $twig->render($this->template_name, array('object_list' => $nets ));
+        echo $twig->render($this->template_name, array(
+                                'object_list' => $nets,
+                                'form' => $form
+                             ));
     }
     
     public function post(){}

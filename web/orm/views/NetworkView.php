@@ -25,7 +25,8 @@ class ListNetworkView extends ListView  {
     public $model = 'Network';
     public $template_name= 'network_list.html';
     public $name = 'ListNetwork';
-    public $verbose_name = 'Manage networks';    
+    public $verbose_name = 'Manage networks';  
+    public $list_filter = ['name'];
 }
 
 class DeleteNetworkView extends DeleteView{

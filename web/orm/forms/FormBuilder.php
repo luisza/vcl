@@ -74,6 +74,15 @@ class Form{
         return $devWidgets;
     }
 
+    function getData($withNulls=False){
+         $devData = [];
+        foreach ($this->widgets as $widget){
+            if($withNulls || $widget->value != NULL){
+                $devData[$widget->name] = $widget->value;
+            }
+        }
+        return $devData;       
+    }
 
 }
 
@@ -94,25 +103,27 @@ class ModelFormBuilder{
     }
 
     
-    public function loadModel($obj, $instance=NULL){
+    public function loadModel($obj, $instance=NULL, $includefields=NULL){
         if(is_a($obj, 'BaseModel')){
             $fields = $obj->fields();
             foreach ($fields as $field  => $value){
-                $fieldtype = $value['type'];
-                
-                if(in_array('primary', $value) && $value['primary']){
-                   $fieldtype='hidden';
+                if($includefields == NULL || in_array($field, $includefields) ){
+                    $fieldtype = $value['type'];
+
+                    if(in_array('primary', $value) && $value['primary']){
+                       $fieldtype='hidden';
+                    }
+                    $fieldClass = WidgetFactory::getWidget($fieldtype);
+                    $required=False;
+
+                    if(in_array('required', $value)){
+                        $required = $fields[$field]['required'];
+                    }
+                    $label = $obj->label($field);
+                    $widget = new $fieldClass($field, $label, $required);
+                    $this->fillFields($widget,$obj, $instance, $field, $value);                
+                    $this->form->addWidget($widget);
                 }
-                $fieldClass = WidgetFactory::getWidget($fieldtype);
-                $required=False;
-                
-                if(in_array('required', $value)){
-                    $required = $fields[$field]['required'];
-                }
-                $label = $obj->label($field);
-                $widget = new $fieldClass($field, $label, $required);
-               $this->fillFields($widget,$obj, $instance, $field, $value);                
-                $this->form->addWidget($widget);
             }
         }
         return $this->form;

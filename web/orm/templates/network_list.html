@@ -1,5 +1,25 @@
 
-<a class="btn" href="?mode=CreateNetwork"> Create Network </a>
+
+
+{% if form %}
+<h3> Filters </h3>
+<div id="filter">
+    <form method="get" >
+    <table>
+    {{form.renderAsTable|raw}}
+    <tr>
+        <td> </td> 
+        <td>
+            <input type="hidden" name="mode" value="ListNetwork" >
+            <input type="submit" value="filter" > </td>
+    </tr>
+    </table>
+        
+</div>
+<hr>
+{%endif%}
+
+<h3> <a class="btn" href="?mode=CreateNetwork"> Create Network </a> </h3>
 <table>
     <tr>
         <th>Id</th>
@@ -18,5 +38,7 @@
     <td> {{item.networkmask }}</td>
     <td> <a href="?mode=DeleteNetwork&pk={{item.id}}"> Delete </a></td>
 </tr>
+{% else %}
+<tr><td colspan="5">Not registers jet</td></tr>
 {% endfor %}
 </table>
